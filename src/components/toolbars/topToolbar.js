@@ -15,18 +15,12 @@ const ID = function () {
 class TopToolbar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            categories: []
-        }
         this.addCategory = this.addCategory.bind(this);
         this.addLocation = this.addLocation.bind(this);
         
         store.subscribe(() => {
             localStorage.setItem("categories", JSON.stringify(store.getState().categories));
             localStorage.setItem("locations", JSON.stringify(store.getState().locations));
-            this.setState({
-              categories: store.getState().categories
-            });       
         })
     }
 

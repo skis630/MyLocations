@@ -6,6 +6,8 @@ export const locReducer = (state = [], action) => {
                      coordinates: action.payload.coordinates, category: action.payload.category}]
         case "DELETE_LOCATION":
             return state.filter((loc) => loc.id !== action.payload.id)
+        case "SORT":
+            return action.payload
         default:
             return state
     }

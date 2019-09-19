@@ -30,6 +30,13 @@ export const deleteLoc = (id) => {
     }
 }
 
+export const sortLoc = (sortedList) => {
+    return {
+        type: "SORT",
+        payload: sortedList
+    }
+}
+
 export const display = (type) => {
     return {
         type: type
