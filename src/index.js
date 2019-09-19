@@ -17,7 +17,7 @@ export const store = createStore(
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <Route component={App}></Route>
+            <App />
         </BrowserRouter>
     </Provider>
     

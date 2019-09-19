@@ -19,14 +19,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      
           <Switch>
-            <Route path="/categories" Component={Categories} />
-            <Route path="/locations" Component={Locations} />
+            <Route exact path="/" component={Nav} />
+            <Route path="/categories" component={Categories} />
+            <Route path="/locations" component={Locations} /> 
           </Switch>
-          <Categories></Categories>
-          <Nav />
-        
+               
       </div>
       
     )

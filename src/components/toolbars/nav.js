@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Router } from 'react-router-dom';
 import './nav.css';
 
 
@@ -10,10 +10,10 @@ class Nav extends React.Component {
 
     render() {
         return (
-            <nav role="navigation">
-                <Link to="/categories">Categories </Link>
-                <Link to="/locations">Locations </Link>
-            </nav>
+                <nav role="navigation">
+                    <Link to="/categories">Categories </Link>
+                    <Link to="/locations">Locations </Link>
+                </nav>            
         )
     }
 }
