@@ -1,6 +1,7 @@
 import React from 'react';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
+import Nav from './toolbars/nav';
 
 
 class Locations extends React.Component {
@@ -11,6 +12,7 @@ class Locations extends React.Component {
         }
 
         store.subscribe(() => {
+            localStorage.setItem("locations", JSON.stringify(store.getState().locations));
             this.setState({
               locations: store.getState().locations
             });       
@@ -22,8 +24,9 @@ class Locations extends React.Component {
             <div>
                 <TopToolbar display="locations" />
                 <ul>
-                    {this.state.locations.map(loc => <li key={loc.id}>{loc.name}</li>)}
+                    {JSON.parse(localStorage.getItem("locations") || "[]").map(loc => <li key={loc.id}>{loc.name}</li>)}
                 </ul>
+                <Nav />
             </div>
         )
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
+import Nav from './toolbars/nav';
 
 
 class Categories extends React.Component {
@@ -9,11 +10,16 @@ class Categories extends React.Component {
         this.state = {
             categories: []
         }
+
         store.subscribe(() => {
+            console.log(JSON.stringify(store.getState().categories))
+            localStorage.setItem("categories", JSON.stringify(store.getState().categories))
             this.setState({
               categories: store.getState().categories
             });       
         })
+
+
     }
 
     render() {
@@ -21,8 +27,9 @@ class Categories extends React.Component {
             <div>
                 <TopToolbar display="category" />
                 <ul>
-                    {this.state.categories.map(cat => <li key={cat.id}>{cat.name}</li>)}
+                    {JSON.parse(localStorage.getItem("categories") || "[]").map(cat => <li key={cat.id}>{cat.name}</li>)}
                 </ul>
+                <Nav />
             </div>
         )
     }

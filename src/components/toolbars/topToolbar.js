@@ -22,6 +22,8 @@ class TopToolbar extends React.Component {
         this.addLocation = this.addLocation.bind(this);
         
         store.subscribe(() => {
+            localStorage.setItem("categories", JSON.stringify(store.getState().categories));
+            localStorage.setItem("locations", JSON.stringify(store.getState().locations));
             this.setState({
               categories: store.getState().categories
             });       
@@ -63,7 +65,7 @@ class TopToolbar extends React.Component {
                     <input id="coor" name="coor" type="range"></input>
                     <label htmlFor="cat">Category:</label>
                     <select id="cat" name="cat">
-                        {this.state.categories.map(cat => <option key={cat.id}>{cat.name}</option>)}
+                        {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
                     </select>
                     <button type="submit">Add Location</button>
                 </form>
