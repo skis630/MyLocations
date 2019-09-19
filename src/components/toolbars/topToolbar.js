@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import { store } from '../../index';
-import { addCat } from '../../actions';
+import { addCat, addLoc } from '../../actions';
 
 
 const ID = function () {
@@ -19,6 +19,7 @@ class TopToolbar extends React.Component {
             categories: []
         }
         this.addCategory = this.addCategory.bind(this);
+        this.addLocation = this.addLocation.bind(this);
         
         store.subscribe(() => {
             this.setState({
@@ -32,6 +33,15 @@ class TopToolbar extends React.Component {
         let name = $("#cat").val();
         store.dispatch(addCat(name, ID()));
     }
+
+    addLocation(e) {
+        e.preventDefault();
+        let name = $("#name").val();
+        let address = $("#address").val();
+        let coor = $("#coor").val();
+        let cat = $("#cat").val();
+        store.dispatch(addLoc(name, address, coor, cat, ID()));
+    }
     
     render() {
         if (this.props.display == 'category') {
@@ -44,7 +54,7 @@ class TopToolbar extends React.Component {
             )
         } else if (this.props.display == 'locations') {
             return (
-                <form>
+                <form onSubmit={e => this.addLocation(e)}>
                     <label htmlFor="name">Name:</label>
                     <input type="text" id="name" name="name"></input>
                     <label htmlFor="address">Address:</label>
@@ -53,8 +63,9 @@ class TopToolbar extends React.Component {
                     <input id="coor" name="coor" type="range"></input>
                     <label htmlFor="cat">Category:</label>
                     <select id="cat" name="cat">
-                        {}
+                        {this.state.categories.map(cat => <option key={cat.id}>{cat.name}</option>)}
                     </select>
+                    <button type="submit">Add Location</button>
                 </form>
             )
         }
