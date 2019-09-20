@@ -1,0 +1,12 @@
+.btn {
+    background-color: white;
+    color: #4792e7;
+}
+
+.input-group {
+    width: 30% !important;
+  }
+
+.form-inline > * {
+    margin: 0 5px;
+}

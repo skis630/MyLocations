@@ -12,8 +12,11 @@ class Navigation extends React.Component {
     render() {
         return (
                 <Navbar bg="primary" variant="light" fixed="bottom">
-                    <Nav className="mr-auto">
-                        <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
+                    <Nav className="mr-auto" variant="pills">
+                        <Nav.Item>
+                            <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
+                        </Nav.Item>
+                        
                         <Nav.Link as={Link} to="/locations">Locations</Nav.Link>
                     </Nav>
                 </Navbar> 

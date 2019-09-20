@@ -1,7 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
+import { Navbar, Form, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { store } from '../../index';
 import { addCat, addLoc } from '../../actions';
+import './topToolbar.css';
 
 
 const ID = function () {
@@ -40,29 +42,45 @@ class TopToolbar extends React.Component {
     }
     
     render() {
-        if (this.props.display == 'category') {
+        if (this.props.display === 'category') {
             return (
-                <form onSubmit={e => this.addCategory(e)}>
-                    <label htmlFor="cat">Category: </label>
-                    <input type="text" name="cat" id="cat"></input>
-                    <button type="submit">Add Category</button>
-                </form>
+                <Navbar bg="primary" variant="light">
+                    <Form onSubmit={e => this.addCategory(e)} inline>
+                        <FormControl id="cat" type="text" placeholder="Category name" className=" mr-sm-2" required />
+                        <Button type="submit">Add Category</Button>
+                    </Form>
+                </Navbar>
             )
-        } else if (this.props.display == 'locations') {
+        } else if (this.props.display === 'locations') {
             return (
-                <form onSubmit={e => this.addLocation(e)}>
-                    <label htmlFor="name">Name:</label>
-                    <input type="text" id="name" name="name"></input>
-                    <label htmlFor="address">Address:</label>
-                    <input id="address" name="address" type="textarea"></input>
-                    <label htmlFor="coor">Coordinates (Lat, Lon):</label>
-                    <input id="coor" name="coor" type="range"></input>
-                    <label htmlFor="cat">Category:</label>
-                    <select id="cat" name="cat">
-                        {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
-                    </select>
-                    <button type="submit">Add Location</button>
-                </form>
+                <Navbar bg="primary" variant="light" expand="lg" className="justify-content-between">
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Form onSubmit={e => this.addLocation(e)} inline>
+                            <FormControl type="text" id="name" required placeholder="Name" />
+                            <FormControl type="textarea" id="address" placeholder="address" />
+                            <InputGroup>
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text id="basic-addon1">(</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <FormControl type="number" id="lat" placeholder="Latitude" aria-label="Latitude" />
+                                <InputGroup.Append>
+                                    <InputGroup.Text id="basic-addon2">,</InputGroup.Text>
+                                </InputGroup.Append>
+                
+                            <FormControl type="number" id="long" placeholder="Longtitude" aria-label="Longtitude" aria-describedby="basic-addon1" />
+                            <InputGroup.Append>
+                                <InputGroup.Text id="basic-addon2">)</InputGroup.Text>
+                            </InputGroup.Append>                           
+                            </InputGroup>
+                            <FormControl as="label" htmlFor="cat">Category</FormControl>
+                            <FormControl id="cat" as="select">
+                                {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
+                            </FormControl>
+                            <Button type="submit">Add Location</Button>
+                        </Form>
+                    </Navbar.Collapse>
+                </Navbar>
             )
         }
     }

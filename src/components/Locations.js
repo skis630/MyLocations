@@ -1,4 +1,5 @@
 import React from 'react';
+import {Accordion, Card, Button} from 'react-bootstrap';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
 import Nav from './toolbars/nav.jsx';
@@ -60,9 +61,26 @@ class Locations extends React.Component {
             return (
                 <div>
                     <TopToolbar display="locations" />
-                    <ul>
+                    <Accordion>
+                        {this.state.locations.map((loc, index) => {
+                            return (<Card key={loc.id}>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey={`${index}`}>
+                                        {loc.name}
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey={`${index}`}>
+                                    <Card.Body>
+                                        {loc.address}
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                            )
+                        })}
+                    </Accordion>
+                    {/* <ul>
                         {this.state.locations.map(loc => <li key={loc.id}>{loc.name}</li>)}
-                    </ul>
+                    </ul> */}
                     <button onClick={this.sortLocations} type="button">View by alphabetical order</button>
                     <button type="button" onClick={this.group}>Group by category</button>
                     <Nav />
