@@ -1,4 +1,4 @@
-export const locReducer = (state = [], action) => {
+export const locReducer = (state = JSON.parse(localStorage["locations"] || "[]"), action) => {
     switch (action.type) {
         case "ADD_LOCATION":
             return [...state, 
@@ -7,6 +7,8 @@ export const locReducer = (state = [], action) => {
         case "DELETE_LOCATION":
             return state.filter((loc) => loc.id !== action.payload.id)
         case "SORT":
+            return action.payload
+        case "GROUP":
             return action.payload
         default:
             return state

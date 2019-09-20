@@ -1,4 +1,4 @@
-export const catReducer = (state = [], action) => {
+export const catReducer = (state = JSON.parse(localStorage["categories"] || "[]"), action) => {
     switch (action.type) {
         case "ADD_CATEGORY":
             return [...state, {id: action.payload.id, name: action.payload.name}]

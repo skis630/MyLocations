@@ -1,26 +1,28 @@
 import React from 'react';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
-import Nav from './toolbars/nav';
-import { sortLoc } from '../actions/index'
+import Nav from './toolbars/nav.jsx';
+import { sortLoc, groupByCat } from '../actions/index';
 
 
 class Locations extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            locations: JSON.parse(localStorage["locations"] || "[]")
+        }
         this.sortLocations = this.sortLocations.bind(this);
         this.group = this.group.bind(this);
 
         store.subscribe(() => {
-            localStorage.setItem("locations", JSON.stringify(store.getState().locations));
             this.setState({
-              locations: store.getState().locations
-            });       
+                locations: store.getState().locations
+            })
+            localStorage.setItem("locations", JSON.stringify(store.getState().locations));
         })
     }
 
     sortLocations() {
-        let sorted = JSON.parse(localStorage.getItem("locations"));
         function compare(a, b) {
             // Use toUpperCase() to ignore character casing
             const nameA = a.name.toUpperCase();
@@ -35,24 +37,48 @@ class Locations extends React.Component {
             return comparison;
           }
           
-        sorted.sort(compare);
+        let sorted = JSON.parse(localStorage["locations"] || "[]").sort(compare);
         store.dispatch(sortLoc(sorted));
         localStorage.setItem("locations", JSON.stringify(sorted));
 
     }
 
+    group() {
+        let groupedLoc = JSON.parse(localStorage["locations"] || "[]").reduce(function(groups, loc) {
+            let key = 'category';
+            if (groups[key] == null) groups[key] = [];
+          
+            groups[key].push(loc);
+            return groups;
+          }, {});
+
+          store.dispatch(groupByCat(groupedLoc));
+    }
+
     render() {
-        return (
-            <div>
-                <TopToolbar display="locations" />
-                <ul>
-                    {JSON.parse(localStorage.getItem("locations") || "[]").map(loc => <li key={loc.id}>{loc.name}</li>)}
-                </ul>
-                <button onClick={this.sortLocations} type="button">View by alphabetical order</button>
-                <button type="button" onClick={this.group}>Group by category</button>
-                <Nav />
-            </div>
-        )
+        if (Array.isArray(this.state.locations)) {
+            return (
+                <div>
+                    <TopToolbar display="locations" />
+                    <ul>
+                        {this.state.locations.map(loc => <li key={loc.id}>{loc.name}</li>)}
+                    </ul>
+                    <button onClick={this.sortLocations} type="button">View by alphabetical order</button>
+                    <button type="button" onClick={this.group}>Group by category</button>
+                    <Nav />
+                </div>
+            )
+        } else {
+
+            return (
+                <div>
+                    <TopToolbar display="locations" />
+                    
+                    
+                </div>
+            )
+        }
+        
     }
 }
 

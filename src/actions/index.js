@@ -37,8 +37,9 @@ export const sortLoc = (sortedList) => {
     }
 }
 
-export const display = (type) => {
+export const groupByCat = (groups) => {
     return {
-        type: type
+        type: "GROUP",
+        payload: groups
     }
 }

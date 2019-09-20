@@ -6,7 +6,7 @@ import Categories from '../components/Categories';
 import Locations  from '../components/Locations';
 import './app.css';
 import $ from 'jquery';
-import Nav from '../components/toolbars/nav';
+import Nav from '../components/toolbars/nav.jsx';
 import TopToolbar from '../components/toolbars/topToolbar';
 
 
