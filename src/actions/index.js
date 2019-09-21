@@ -12,6 +12,15 @@ export const addLoc = (name, address, lat, long, cat, id) => {
     }
 };
 
+export const editLoc = (id) => {
+    return { 
+        type: "EDIT_LOCATION",
+        payload: {
+            id: id
+        }
+    }
+}
+
 export const addCat = (name, id) => {
     return {
         type: "ADD_CATEGORY",

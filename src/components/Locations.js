@@ -5,12 +5,14 @@ import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
 import Nav from './toolbars/nav.jsx';
 import GoogleMap from './map.jsx'
-import { sortLoc, groupByCat, deleteLoc } from '../actions/index';
+import Location from './Location.jsx';
+import { sortLoc, groupByCat, deleteLoc, editLoc } from '../actions/index';
 
 
 class Locations extends React.Component {
     constructor(props) {
         super(props);
+        this.abortController = new AbortController();
         this.state = {
             locations: JSON.parse(localStorage["locations"] || "[]")
         }
@@ -23,6 +25,10 @@ class Locations extends React.Component {
             })
             localStorage.setItem("locations", JSON.stringify(store.getState().locations));
         })
+    }
+
+    componentWillUnmount() {
+        this.abortController.abort();
     }
 
     sortLocations() {
@@ -59,13 +65,41 @@ class Locations extends React.Component {
     }
 
     render() {
+        let details ="";
         if (Array.isArray(this.state.locations)) {
             return (
                 <div>
                     <TopToolbar display="locations" />
                     <Accordion>
                         {this.state.locations.map((loc, index) => {
-                            return (<Card key={loc.id}>
+                            if (loc.editable) {
+                                details = <div>
+                                <input id="edit-address" type="text" defaultValue={loc.address} /><br />
+                                <input id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lategory} />
+                                <input id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} />
+                                <input id="edit-cat" type="text" defaultValue={loc.cat} /> 
+                            </div>;
+                            } else {
+                                details = <div>
+                                <p>{loc.address}</p>
+                                <p><b>Coordinates:</b> ({loc.lat} , {loc.long})</p>
+                                <p><b>Category:</b> {loc.category}</p>
+                                <div className="rounded mb-0" style={{height: "250px"}}>
+                                    <GoogleMap lat={loc.lat} long={loc.long} />
+                                </div>
+                              </div>;     
+                            }
+                            return (
+                                // <Location
+                                //     editable={loc.editable}
+                                //     key={loc.id}
+                                //     keyEvent={`${index}`}
+                                //     address={loc.address}
+                                //     cat={loc.category}
+                                //     lat={loc.lat} long={loc.long}>
+                                //     {loc.name}
+                                // </Location>
+                                 <Card key={loc.id}>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey={`${index}`}>
                                         {loc.name}
@@ -74,10 +108,11 @@ class Locations extends React.Component {
                                 <Accordion.Collapse eventKey={`${index}`}>
                                     <Card.Body>
                                         <Button onClick={() => store.dispatch(deleteLoc(loc.id))}><FaTrashAlt></FaTrashAlt> </Button>
-                                        <Button> <FaEdit></FaEdit></Button><br/>
-                                        {loc.address}<br/>
+                                        <Button onClick={() => store.dispatch(editLoc(loc.id))}> <FaEdit></FaEdit></Button><br/>
+                                        {/* {loc.address}<br/>
                                         <b>Coordinates:</b> ({loc.lat},{loc.long}) <br/>
-                                        <b>Category:</b> {loc.category}
+                                        <b>Category:</b> {loc.category} */}
+                                        {details}
                                         <div className="rounded mb-0" style={{height: "250px"}}>
                                             <GoogleMap lat={loc.lat} long={loc.long} />
                                         </div>

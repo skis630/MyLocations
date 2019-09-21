@@ -7,6 +7,14 @@ export const locReducer = (state = JSON.parse(localStorage["locations"] || "[]")
                      category: action.payload.category, editable: false}]
         case "DELETE_LOCATION":
             return state.filter((loc) => loc.id !== action.payload.id)
+        case "EDIT_LOCATION":
+            return state.map(loc => {
+                if (loc.id === action.payload.id) { 
+                    return {...loc, editable: true}
+                } else {
+                    return loc
+                }
+            })
         case "SORT":
             return action.payload
         case "GROUP":
