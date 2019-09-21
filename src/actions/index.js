@@ -1,11 +1,12 @@
-export const addLoc = (name, address, coor, cat, id) => {
+export const addLoc = (name, address, lat, long, cat, id) => {
     return {
         type: "ADD_LOCATION",
         payload: {
             id: id,
             name: name,
             address: address,
-            coordinates: coor,
+            lat: lat,
+            long: long,
             category: cat
         }
     }
@@ -23,7 +24,7 @@ export const addCat = (name, id) => {
 
 export const deleteLoc = (id) => {
     return {
-        type: "DELETE",
+        type: "DELETE_LOCATION",
         payload: {
             id: id
         }

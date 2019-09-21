@@ -36,9 +36,10 @@ class TopToolbar extends React.Component {
         e.preventDefault();
         let name = $("#name").val();
         let address = $("#address").val();
-        let coor = $("#coor").val();
+        let lat = $("#lat").val();
+        let long = $("#long").val();
         let cat = $("#cat").val();
-        store.dispatch(addLoc(name, address, coor, cat, ID()));
+        store.dispatch(addLoc(name, address, lat, long, cat, ID()));
     }
     
     render() {
@@ -63,12 +64,12 @@ class TopToolbar extends React.Component {
                                 <InputGroup.Prepend>
                                     <InputGroup.Text id="basic-addon1">(</InputGroup.Text>
                                 </InputGroup.Prepend>
-                                <FormControl type="number" id="lat" placeholder="Latitude" aria-label="Latitude" />
+                                <FormControl type="number" step="0.0000000001" id="lat" placeholder="Latitude" aria-label="Latitude" required />
                                 <InputGroup.Append>
                                     <InputGroup.Text id="basic-addon2">,</InputGroup.Text>
                                 </InputGroup.Append>
                 
-                            <FormControl type="number" id="long" placeholder="Longtitude" aria-label="Longtitude" aria-describedby="basic-addon1" />
+                            <FormControl type="number" step="0.0000000001" id="long" placeholder="Longtitude" aria-label="Longtitude" aria-describedby="basic-addon1" required />
                             <InputGroup.Append>
                                 <InputGroup.Text id="basic-addon2">)</InputGroup.Text>
                             </InputGroup.Append>                           

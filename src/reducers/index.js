@@ -1,4 +1,4 @@
-import { locReducer } from './location';
+import { locReducer } from './locReducer';
 import { catReducer } from './category';
 import { combineReducers } from 'redux';
 import { display } from './display';

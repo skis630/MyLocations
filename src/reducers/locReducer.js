@@ -3,7 +3,8 @@ export const locReducer = (state = JSON.parse(localStorage["locations"] || "[]")
         case "ADD_LOCATION":
             return [...state, 
                     {id: action.payload.id, name: action.payload.name, address: action.payload.address,
-                     coordinates: action.payload.coordinates, category: action.payload.category}]
+                     lat: action.payload.lat, long: action.payload.long,
+                     category: action.payload.category, editable: false}]
         case "DELETE_LOCATION":
             return state.filter((loc) => loc.id !== action.payload.id)
         case "SORT":

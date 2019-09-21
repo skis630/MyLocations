@@ -1,9 +1,11 @@
 import React from 'react';
 import {Accordion, Card, Button} from 'react-bootstrap';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
 import Nav from './toolbars/nav.jsx';
-import { sortLoc, groupByCat } from '../actions/index';
+import GoogleMap from './map.jsx'
+import { sortLoc, groupByCat, deleteLoc } from '../actions/index';
 
 
 class Locations extends React.Component {
@@ -71,7 +73,15 @@ class Locations extends React.Component {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={`${index}`}>
                                     <Card.Body>
-                                        {loc.address}
+                                        <Button onClick={() => store.dispatch(deleteLoc(loc.id))}><FaTrashAlt></FaTrashAlt> </Button>
+                                        <Button> <FaEdit></FaEdit></Button><br/>
+                                        {loc.address}<br/>
+                                        <b>Coordinates:</b> ({loc.lat},{loc.long}) <br/>
+                                        <b>Category:</b> {loc.category}
+                                        <div className="rounded mb-0" style={{height: "250px"}}>
+                                            <GoogleMap lat={loc.lat} long={loc.long} />
+                                        </div>
+                                        
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>
