@@ -5,10 +5,6 @@ import './nav.css';
 
 
 class Navigation extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
                 <Navbar bg="primary" variant="light" fixed="bottom">

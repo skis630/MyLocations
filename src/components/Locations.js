@@ -94,69 +94,69 @@ class Locations extends React.Component {
                     <TopToolbar display="locations" />
                     <Accordion>
                         {this.state.locations.map((loc, index) => {
-                            if (loc.editable) {
-                                details = <Form inline onSubmit={e => this.edit(e, loc.id)}>
-                                            <FormControl id="edit-address" type="textarea" defaultValue={loc.address} required /><br />
-                                            <InputGroup>
-                                                <InputGroup.Prepend>
-                                                    <InputGroup.Text id="edit-addon1">(</InputGroup.Text>
-                                                </InputGroup.Prepend>
-                                                    <FormControl id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lategory} required />
-                                                <InputGroup.Append>
-                                                    <InputGroup.Text id="basic-addon2">,</InputGroup.Text>
-                                                </InputGroup.Append>
-                                                        <FormControl id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} required />
-                                                <InputGroup.Append>
-                                                    <InputGroup.Text id="basic-addon2">)</InputGroup.Text>
-                                                </InputGroup.Append>                           
-                                            </InputGroup>
-                                                <FormControl as="select" id="edit-cat" type="text" defaultValue={loc.cat} required >
-                                                    {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
-                                                </FormControl>
-                                                <br/>
-                                                <Button type="submit">Save</Button> 
-                                          </Form>;
-                                name = <input id="edit-name" type="text" defaultValue={loc.name} />
+                            // if (loc.editable) {
+                            //     details = <Form inline onSubmit={e => this.edit(e, loc.id)}>
+                            //                 <FormControl id="edit-address" type="textarea" defaultValue={loc.address} required /><br />
+                            //                 <InputGroup>
+                            //                     <InputGroup.Prepend>
+                            //                         <InputGroup.Text id="edit-addon1">(</InputGroup.Text>
+                            //                     </InputGroup.Prepend>
+                            //                         <FormControl id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lat} required />
+                            //                     <InputGroup.Append>
+                            //                         <InputGroup.Text id="basic-addon2">,</InputGroup.Text>
+                            //                     </InputGroup.Append>
+                            //                             <FormControl id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} required />
+                            //                     <InputGroup.Append>
+                            //                         <InputGroup.Text id="basic-addon2">)</InputGroup.Text>
+                            //                     </InputGroup.Append>                           
+                            //                 </InputGroup>
+                            //                     <FormControl as="select" id="edit-cat" type="text" defaultValue={loc.cat} required >
+                            //                         {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
+                            //                     </FormControl>
+                            //                     <br/>
+                            //                     <Button type="submit">Save</Button> 
+                            //               </Form>;
+                            //     name = <input id="edit-name" type="text" defaultValue={loc.name} />
 
-                            } else {
-                                details = <div>
-                                            <p>{loc.address}</p>
-                                            <p><b>Coordinates:</b> ({loc.lat} , {loc.long})</p>
-                                            <p><b>Category:</b> {loc.category}</p>
-                                          </div>; 
-                                name = loc.name;    
-                            }
+                            // } else {
+                            //     details = <div>
+                            //                 <p>{loc.address}</p>
+                            //                 <p><b>Coordinates:</b> ({loc.lat} , {loc.long})</p>
+                            //                 <p><b>Category:</b> {loc.category}</p>
+                            //               </div>; 
+                            //     name = loc.name;    
+                            // }
                             return (
-                                // <Location
-                                //     editable={loc.editable}
-                                //     key={loc.id}
-                                //     keyEvent={`${index}`}
-                                //     address={loc.address}
-                                //     cat={loc.category}
-                                //     lat={loc.lat} long={loc.long}>
-                                //     {loc.name}
-                                // </Location>
-                                 <Card key={loc.id}>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey={`${index}`}>
-                                        {name}
-                                    </Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey={`${index}`}>
-                                    <Card.Body>
-                                        <Button onClick={() => store.dispatch(deleteLoc(loc.id))}><FaTrashAlt></FaTrashAlt> </Button>
-                                        <Button onClick={() => store.dispatch(toggleEditLoc(loc.id))}> <FaEdit></FaEdit></Button><br/>
-                                        {/* {loc.address}<br/>
-                                        <b>Coordinates:</b> ({loc.lat},{loc.long}) <br/>
-                                        <b>Category:</b> {loc.category} */}
-                                        {details}
-                                        <div className="rounded mb-0" style={{height: "250px"}}>
-                                            <GoogleMap lat={loc.lat} long={loc.long} />
-                                        </div>
+                                <Location
+                                    editable={loc.editable}
+                                    key={loc.id} id={loc.id}
+                                    keyEvent={`${index}`}
+                                    address={loc.address}
+                                    cat={loc.category} name={loc.name}
+                                    lat={loc.lat} long={loc.long}>
+                                    {loc.name}
+                                </Location>
+                            //      <Card key={loc.id}>
+                            //     <Card.Header>
+                            //         <Accordion.Toggle as={Button} variant="link" eventKey={`${index}`}>
+                            //             {name}
+                            //         </Accordion.Toggle>
+                            //     </Card.Header>
+                            //     <Accordion.Collapse eventKey={`${index}`}>
+                            //         <Card.Body>
+                            //             <Button onClick={() => store.dispatch(deleteLoc(loc.id))}><FaTrashAlt></FaTrashAlt> </Button>
+                            //             <Button onClick={() => store.dispatch(toggleEditLoc(loc.id))}> <FaEdit></FaEdit></Button><br/>
+                            //             {/* {loc.address}<br/>
+                            //             <b>Coordinates:</b> ({loc.lat},{loc.long}) <br/>
+                            //             <b>Category:</b> {loc.category} */}
+                            //             {details}
+                            //             <div className="rounded mb-0" style={{height: "250px"}}>
+                            //                 <GoogleMap lat={loc.lat} long={loc.long} />
+                            //             </div>
                                         
-                                    </Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
+                            //         </Card.Body>
+                            //     </Accordion.Collapse>
+                            // </Card>
                             )
                         })}
                     </Accordion>

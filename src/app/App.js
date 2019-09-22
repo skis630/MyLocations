@@ -1,21 +1,12 @@
 import React from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
-import { addLoc } from '../actions';
-import { store } from '../index';
+import { Route, Switch } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Locations  from '../components/Locations';
 import './app.css';
-import $ from 'jquery';
 import Nav from '../components/toolbars/nav.jsx';
-import TopToolbar from '../components/toolbars/topToolbar';
-
 
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
@@ -31,4 +22,6 @@ class App extends React.Component {
   }
   
 }
+
+
 export default App;

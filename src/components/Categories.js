@@ -16,7 +16,6 @@ class Categories extends React.Component {
         };
         this.edit = this.edit.bind(this);
 
-
         store.subscribe(() => {
             this.setState({
                 categories: store.getState().categories
@@ -25,14 +24,8 @@ class Categories extends React.Component {
             localStorage.setItem("categories", JSON.stringify(store.getState().categories))
         })
 
-
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.id !== prevProps.id) {
-          this.setDefaultTranslation(this.props.context)
-        }
-      }
 
     edit(id) {
         let name = $("#edit-cat-name").val();
@@ -48,35 +41,24 @@ class Categories extends React.Component {
                 <ListGroup>
                     {this.state.categories.map(cat => {
                         if (cat.editable) {
-                            list = <div>
-                                <FormControl id="edit-cat-name" type="text" defaultValue={cat.name} required /> <br />
-                                    <Button type="button" onClick={() => this.edit(cat.id)}>Save</Button>
-                            </div>;
-                                
-                                    {/* <Form inline > */}
-                                    
-                                    {/* </Form> */}
-                                    {/* <Button type="button" onClick={() => store.dispatch(deleteCat(cat.id))} >
-                                    <FaTrashAlt></FaTrashAlt>
-                                    </Button> */}
-                                    {/* <Button type="button" onClick={}>
-                                        <FaEdit />
-                                    </Button> */}
-                                
-                        } else {    list = cat.name}
+                            list = <Form inline>
+                                        <FormControl id="edit-cat-name" type="text" defaultValue={cat.name}
+                                                     required /> <br />
+                                        <Button type="button" onClick={() => this.edit(cat.id)}>Save</Button>
+                                    </Form>;                    
+                        } else { list = cat.name}
 
                         return (
-                            <ListGroup.Item key={cat.id}>
-                                {list}
-                                <Button onClick={() => store.dispatch(deleteCat(cat.id))} >
-                                <FaTrashAlt></FaTrashAlt>
-                                </Button>
-                                <Button onClick={() => store.dispatch(toggleEditCat(cat.id))}>
-                                    <FaEdit />
-                                </Button>
-                            </ListGroup.Item>
-                            
-                        )
+                                <ListGroup.Item key={cat.id}>
+                                    {list}
+                                    <Button onClick={() => store.dispatch(deleteCat(cat.id))} >
+                                        <FaTrashAlt />
+                                    </Button>
+                                    <Button onClick={() => store.dispatch(toggleEditCat(cat.id))}>
+                                        <FaEdit />
+                                    </Button>
+                                </ListGroup.Item>      
+                                )
                     })}
                 </ListGroup>
                 <Nav />
