@@ -51,7 +51,7 @@ class Location extends React.Component {
             </Card.Header>
             <Accordion.Collapse eventKey={this.props.keyEvent}>
                 <Card.Body>
-                    <Button onClick={() => store.dispatch(deleteLoc(this.props.key))}><FaTrashAlt></FaTrashAlt> </Button>
+                    <Button onClick={() => store.dispatch(deleteLoc(this.props.id))}><FaTrashAlt></FaTrashAlt> </Button>
                     <Button> <FaEdit></FaEdit></Button><br/>
                     {details}
                 </Card.Body>

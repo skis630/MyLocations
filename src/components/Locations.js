@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import {Accordion, Card, Button} from 'react-bootstrap';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import TopToolbar from './toolbars/topToolbar';
@@ -6,7 +7,7 @@ import { store } from '../index';
 import Nav from './toolbars/nav.jsx';
 import GoogleMap from './map.jsx'
 import Location from './Location.jsx';
-import { sortLoc, groupByCat, deleteLoc, editLoc } from '../actions/index';
+import { sortLoc, groupByCat, deleteLoc, toggleEditLoc, editLoc } from '../actions/index';
 
 
 class Locations extends React.Component {
@@ -18,6 +19,7 @@ class Locations extends React.Component {
         }
         this.sortLocations = this.sortLocations.bind(this);
         this.group = this.group.bind(this);
+        this.edit = this.edit.bind(this);
 
         store.subscribe(() => {
             this.setState({
@@ -29,6 +31,17 @@ class Locations extends React.Component {
 
     componentWillUnmount() {
         this.abortController.abort();
+    }
+
+    edit(e, id) {
+        e.preventDefault();
+        let name = $("#edit-name").val();
+        let address = $("#edit-address").val();
+        let cat = $("#edit-cat").val();
+        let lat = $("#edit-lat").val();
+        let long = $("#edit-long").val();
+
+        store.dispatch(editLoc(id, name, lat, long, cat, address));
     }
 
     sortLocations() {
@@ -66,6 +79,7 @@ class Locations extends React.Component {
 
     render() {
         let details ="";
+        let name = "";
         if (Array.isArray(this.state.locations)) {
             return (
                 <div>
@@ -73,21 +87,22 @@ class Locations extends React.Component {
                     <Accordion>
                         {this.state.locations.map((loc, index) => {
                             if (loc.editable) {
-                                details = <div>
-                                <input id="edit-address" type="text" defaultValue={loc.address} /><br />
-                                <input id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lategory} />
-                                <input id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} />
-                                <input id="edit-cat" type="text" defaultValue={loc.cat} /> 
-                            </div>;
+                                details = <form onSubmit={e => this.edit(e, loc.id)}>
+                                            <input id="edit-address" type="text" defaultValue={loc.address} /><br />
+                                            <input id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lategory} />
+                                            <input id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} />
+                                            <input id="edit-cat" type="text" defaultValue={loc.cat} /><br/>
+                                            <Button type="submit">Save</Button> 
+                                          </form>;
+                                name = <input id="edit-name" type="text" defaultValue={loc.name} />
+
                             } else {
                                 details = <div>
-                                <p>{loc.address}</p>
-                                <p><b>Coordinates:</b> ({loc.lat} , {loc.long})</p>
-                                <p><b>Category:</b> {loc.category}</p>
-                                <div className="rounded mb-0" style={{height: "250px"}}>
-                                    <GoogleMap lat={loc.lat} long={loc.long} />
-                                </div>
-                              </div>;     
+                                            <p>{loc.address}</p>
+                                            <p><b>Coordinates:</b> ({loc.lat} , {loc.long})</p>
+                                            <p><b>Category:</b> {loc.category}</p>
+                                          </div>; 
+                                name = loc.name;    
                             }
                             return (
                                 // <Location
@@ -102,13 +117,13 @@ class Locations extends React.Component {
                                  <Card key={loc.id}>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey={`${index}`}>
-                                        {loc.name}
+                                        {name}
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={`${index}`}>
                                     <Card.Body>
                                         <Button onClick={() => store.dispatch(deleteLoc(loc.id))}><FaTrashAlt></FaTrashAlt> </Button>
-                                        <Button onClick={() => store.dispatch(editLoc(loc.id))}> <FaEdit></FaEdit></Button><br/>
+                                        <Button onClick={() => store.dispatch(toggleEditLoc(loc.id))}> <FaEdit></FaEdit></Button><br/>
                                         {/* {loc.address}<br/>
                                         <b>Coordinates:</b> ({loc.lat},{loc.long}) <br/>
                                         <b>Category:</b> {loc.category} */}

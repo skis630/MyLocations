@@ -12,11 +12,25 @@ export const addLoc = (name, address, lat, long, cat, id) => {
     }
 };
 
-export const editLoc = (id) => {
+export const toggleEditLoc = (id) => {
     return { 
-        type: "EDIT_LOCATION",
+        type: "TOGGLE_EDIT_LOCATION",
         payload: {
             id: id
+        }
+    }
+}
+
+export const editLoc = (id, name, lat, long, cat, address) => {
+    return {
+        type: "EDIT_LOCATION",
+        payload: {
+            id: id,
+            name: name,
+            lat: lat,
+            long: long,
+            category: cat,
+            address: address
         }
     }
 }
