@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import {Button, ListGroup, FormControl, Form } from 'react-bootstrap';
+import {Button, ButtonGroup, ListGroup, FormControl, Form } from 'react-bootstrap';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
@@ -51,12 +51,14 @@ class Categories extends React.Component {
                         return (
                                 <ListGroup.Item key={cat.id}>
                                     {list}
-                                    <Button onClick={() => store.dispatch(deleteCat(cat.id))} >
-                                        <FaTrashAlt />
-                                    </Button>
-                                    <Button onClick={() => store.dispatch(toggleEditCat(cat.id))}>
-                                        <FaEdit />
-                                    </Button>
+                                    <ButtonGroup>
+                                        <Button onClick={() => store.dispatch(deleteCat(cat.id))} >
+                                            <FaTrashAlt />
+                                        </Button>
+                                        <Button onClick={() => store.dispatch(toggleEditCat(cat.id))}>
+                                            <FaEdit />
+                                        </Button>
+                                    </ButtonGroup> 
                                 </ListGroup.Item>      
                                 )
                     })}

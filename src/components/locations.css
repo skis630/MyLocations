@@ -1,0 +1,33 @@
+.accord-loc {
+    margin: 30px;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.sort, .group {
+    display: block;
+}
+
+.sort {
+    margin: 30px -70%;
+}
+
+.group {
+    margin-left: -70%;
+    margin-top: -15px;
+}
+
+.sortOrGroup {
+    margin: 70px;
+}
+
+@media screen and (max-width: 600px) {
+    .sort, .group {
+        margin: 0 20%;
+    }
+
+    .group {
+        margin-bottom: 60px;
+        margin-top: 15px;
+    }
+}

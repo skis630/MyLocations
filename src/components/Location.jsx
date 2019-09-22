@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Card, Accordion, Button, InputGroup, Form, FormControl } from 'react-bootstrap';
+import { Card, Accordion, ButtonGroup, Button, InputGroup, Form, FormControl } from 'react-bootstrap';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { store } from '../index';
 import { deleteLoc, toggleEditLoc, editLoc } from '../actions/index';
@@ -79,10 +79,13 @@ class Location extends React.Component {
             </Card.Header>
             <Accordion.Collapse eventKey={this.props.keyEvent}>
                 <Card.Body>
-                <Button onClick={() => store.dispatch(deleteLoc(this.props.id))}><FaTrashAlt /></Button>
-                <Button onClick={() => store.dispatch(toggleEditLoc(this.props.id))}><FaEdit /></Button><br/>
+                    <ButtonGroup>
+                        <Button onClick={() => store.dispatch(deleteLoc(this.props.id))}><FaTrashAlt /></Button>
+                        <Button onClick={() => store.dispatch(toggleEditLoc(this.props.id))}><FaEdit /></Button>
+                    </ButtonGroup>
+                    <br />
                     {details} <br />
-                    <div className="rounded mb-0" style={{height: "250px"}}>
+                    <div className="rounded mb-0" style={{height: "250px", marginBottom: "25px"}}>
                         <GoogleMap lat={this.props.lat} long={this.props.long} />
                     </div>
                 </Card.Body>
