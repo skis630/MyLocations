@@ -1,13 +1,13 @@
 import React from 'react';
 import $ from 'jquery';
-import {Accordion, Card, Button} from 'react-bootstrap';
+import {Accordion, Card, Button, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
 import Nav from './toolbars/nav.jsx';
 import GoogleMap from './map.jsx'
 import Location from './Location.jsx';
-import { sortLoc, groupByCat, deleteLoc, toggleEditLoc, editLoc } from '../actions/index';
+import { sortLoc, groupByCat, deleteLoc, toggleEditLoc, editLoc, revertToLocs } from '../actions/index';
 
 
 class Locations extends React.Component {
@@ -20,6 +20,7 @@ class Locations extends React.Component {
         this.sortLocations = this.sortLocations.bind(this);
         this.group = this.group.bind(this);
         this.edit = this.edit.bind(this);
+        this.revert = this.revert.bind(this);
 
         store.subscribe(() => {
             this.setState({
@@ -61,13 +62,13 @@ class Locations extends React.Component {
           
         let sorted = JSON.parse(localStorage["locations"] || "[]").sort(compare);
         store.dispatch(sortLoc(sorted));
-        localStorage.setItem("locations", JSON.stringify(sorted));
+        // localStorage.setItem("locations", JSON.stringify(sorted));
 
     }
 
     group() {
         let groupedLoc = JSON.parse(localStorage["locations"] || "[]").reduce(function(groups, loc) {
-            let key = 'category';
+            let key = loc.category;
             if (groups[key] == null) groups[key] = [];
           
             groups[key].push(loc);
@@ -75,6 +76,13 @@ class Locations extends React.Component {
           }, {});
 
           store.dispatch(groupByCat(groupedLoc));
+    }
+
+    revert() {
+        let groups = Object.values(JSON.parse(localStorage["locations"] || "{}"));
+        let baseState = [].concat(...groups);
+        
+        store.dispatch(revertToLocs(baseState));
     }
 
     render() {
@@ -87,13 +95,27 @@ class Locations extends React.Component {
                     <Accordion>
                         {this.state.locations.map((loc, index) => {
                             if (loc.editable) {
-                                details = <form onSubmit={e => this.edit(e, loc.id)}>
-                                            <input id="edit-address" type="text" defaultValue={loc.address} /><br />
-                                            <input id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lategory} />
-                                            <input id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} />
-                                            <input id="edit-cat" type="text" defaultValue={loc.cat} /><br/>
-                                            <Button type="submit">Save</Button> 
-                                          </form>;
+                                details = <Form inline onSubmit={e => this.edit(e, loc.id)}>
+                                            <FormControl id="edit-address" type="textarea" defaultValue={loc.address} required /><br />
+                                            <InputGroup>
+                                                <InputGroup.Prepend>
+                                                    <InputGroup.Text id="edit-addon1">(</InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                    <FormControl id="edit-lat" type="number" step="0.0000000001" defaultValue={loc.lategory} required />
+                                                <InputGroup.Append>
+                                                    <InputGroup.Text id="basic-addon2">,</InputGroup.Text>
+                                                </InputGroup.Append>
+                                                        <FormControl id="edit-long" type="number" step="0.0000000001" defaultValue={loc.long} required />
+                                                <InputGroup.Append>
+                                                    <InputGroup.Text id="basic-addon2">)</InputGroup.Text>
+                                                </InputGroup.Append>                           
+                                            </InputGroup>
+                                                <FormControl as="select" id="edit-cat" type="text" defaultValue={loc.cat} required >
+                                                    {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
+                                                </FormControl>
+                                                <br/>
+                                                <Button type="submit">Save</Button> 
+                                          </Form>;
                                 name = <input id="edit-name" type="text" defaultValue={loc.name} />
 
                             } else {
@@ -151,8 +173,37 @@ class Locations extends React.Component {
             return (
                 <div>
                     <TopToolbar display="locations" />
-                    
-                    
+                    <Accordion>
+                        {Object.keys(this.state.locations).map((cat, index) => {
+                            return (
+                            // let data = this.state.locations;
+                            <Card key={index}>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey={`${index}`}>
+                                        {cat}
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey={`${index}`}>
+                                    <Card.Body>
+                                        {this.state.locations[cat].map(loc => {
+                                            return (
+                                            <div key={loc.id}>
+                                                <h4>{loc.name}</h4>
+                                                <p>{loc.address}</p>
+                                                <p>({loc.lat} , {loc.long})</p>
+                                                {/* <div className="rounded mb-0" style={{height: "250px"}}>
+                                                    <GoogleMap lat={loc.lat} long={loc.long} />
+                                                </div> */}
+                                            </div>            
+                                        )})}
+                                        
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        )})}
+                    </Accordion>
+                    <button onClick={this.revert}>Revert</button>
+                    <Nav />
                 </div>
             )
         }

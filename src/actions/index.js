@@ -35,16 +35,6 @@ export const editLoc = (id, name, lat, long, cat, address) => {
     }
 }
 
-export const addCat = (name, id) => {
-    return {
-        type: "ADD_CATEGORY",
-        payload: {
-            id: id,
-            name: name
-        }
-    }
-}
-
 export const deleteLoc = (id) => {
     return {
         type: "DELETE_LOCATION",
@@ -67,3 +57,49 @@ export const groupByCat = (groups) => {
         payload: groups
     }
 }
+
+export const revertToLocs = (locs) => {
+    return {
+        type: "REVERT",
+        payload: locs
+    }
+}
+
+export const addCat = (name, id) => {
+    return {
+        type: "ADD_CATEGORY",
+        payload: {
+            id: id,
+            name: name
+        }
+    }
+}
+
+export const deleteCat = (id) => {
+    return {
+        type: "DELETE_CATEGORY",
+        payload: {
+            id: id
+        }
+    }
+}
+
+export const toggleEditCat = (id) => {
+    return {
+        type: "TOGGLE_EDIT",
+        payload: {
+            id: id
+        }
+    }
+}
+
+export const editCat = (id, name) => {
+    return {
+        type: "EDIT_CATEGORY",
+        payload: {
+            id: id,
+            name: name
+        }
+    }
+}
+

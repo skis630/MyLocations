@@ -59,7 +59,7 @@ class TopToolbar extends React.Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Form onSubmit={e => this.addLocation(e)} inline>
                             <FormControl type="text" id="name" required placeholder="Name" />
-                            <FormControl type="textarea" id="address" placeholder="address" />
+                            <FormControl type="textarea" id="address" placeholder="address" required />
                             <InputGroup>
                                 <InputGroup.Prepend>
                                     <InputGroup.Text id="basic-addon1">(</InputGroup.Text>
@@ -74,7 +74,7 @@ class TopToolbar extends React.Component {
                                 <InputGroup.Text id="basic-addon2">)</InputGroup.Text>
                             </InputGroup.Append>                           
                             </InputGroup>
-                            <FormControl as="label" htmlFor="cat">Category</FormControl>
+                            <FormControl as="label" htmlFor="cat" required>Category</FormControl>
                             <FormControl id="cat" as="select">
                                 {JSON.parse(localStorage.categories || "[]").map(cat => <option key={cat.id}>{cat.name}</option>)}
                             </FormControl>

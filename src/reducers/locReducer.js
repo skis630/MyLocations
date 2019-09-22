@@ -29,6 +29,8 @@ export const locReducer = (state = JSON.parse(localStorage["locations"] || "[]")
             return action.payload
         case "GROUP":
             return action.payload
+        case "REVERT":
+            return action.payload
         default:
             return state
     }
