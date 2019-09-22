@@ -1,5 +1,5 @@
 import React from 'react';
-import {Accordion, Card, Button, ButtonGroup, Row, Col, Container } from 'react-bootstrap';
+import {Accordion, Card, Button, Row, Col, Container } from 'react-bootstrap';
 import { FaSortAlphaDown, FaRegObjectGroup } from 'react-icons/fa';
 import './locations.css';
 import TopToolbar from './toolbars/topToolbar';
@@ -76,37 +76,38 @@ class Locations extends React.Component {
                 <div>
                     <TopToolbar display="locations" />
                     <Container fluid>
-                     <Row>
-                    <Col md={10} sm={12}>
-                    <Accordion className="accord-loc">
-                        {this.state.locations.map((loc, index) => {
-                            return (
-                                <Location
-                                    editable={loc.editable}
-                                    key={loc.id} id={loc.id}
-                                    keyEvent={`${index}`}
-                                    address={loc.address}
-                                    cat={loc.category} name={loc.name}
-                                    lat={loc.lat} long={loc.long}>
-                                    {loc.name}
-                                </Location>
-                            )
-                        })}
-                    </Accordion>
-                    </Col>
-                    <Col md={2} sm={12}>
-                        {/* <ButtonGroup className="sortOrGroup"> */}
-                        <Button className="sort" variant="primary" onClick={this.sortLocations} type="button">
-                            Sort alphabetically <FaSortAlphaDown />
-                        </Button>
-                        <Button className="group" type="button" onClick={this.group}>
-                            Group by category <FaRegObjectGroup />
-                        </Button>
-                        {/* </ButtonGroup> */}
-                    </Col>
-                </Row>
-                <Nav />
-                </Container>
+                        <Row>
+                            <h1 className="loc-heading">My Locations</h1>
+                        </Row>
+                        <Row>
+                            <Col md={10} sm={12}>
+                                <Accordion className="accord-loc">
+                                    {this.state.locations.map((loc, index) => {
+                                        return (
+                                            <Location
+                                                editable={loc.editable}
+                                                key={loc.id} id={loc.id}
+                                                keyEvent={`${index}`}
+                                                address={loc.address}
+                                                cat={loc.category} name={loc.name}
+                                                lat={loc.lat} long={loc.long}>
+                                                {loc.name}
+                                            </Location>
+                                            )
+                                    })}
+                                </Accordion>
+                            </Col>
+                            <Col md={2} sm={12}>
+                                <Button className="sort" variant="primary" onClick={this.sortLocations} type="button">
+                                    Sort alphabetically <FaSortAlphaDown />
+                                </Button>
+                                <Button className="group" type="button" onClick={this.group}>
+                                    Group by category <FaRegObjectGroup />
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <Nav />
                 </div>
                 
                
@@ -118,7 +119,13 @@ class Locations extends React.Component {
             return (
                 <div>
                     <TopToolbar display="locations" />
-                    <Accordion>
+                    <Container fluid>
+                    <Row>
+                        <h1 className="loc-heading">My Locations</h1>
+                    </Row>
+                    <Row>
+                    <Col md={10} sm={12}>
+                    <Accordion className="accord-loc">
                         {Object.keys(this.state.locations).map((cat, index) => {
                             return (
                             <Card key={index}>
@@ -146,7 +153,12 @@ class Locations extends React.Component {
                             </Card>
                         )})}
                     </Accordion>
-                    <button onClick={this.revert}>Revert</button>
+                    </Col>
+                    <Col md={2} sm={12}>
+                        <Button onClick={this.revert} className="revert">Revert to Locations</Button>
+                    </Col>
+                    </Row>
+                    </Container>
                     <Nav />
                 </div>
             )

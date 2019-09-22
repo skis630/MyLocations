@@ -1,14 +1,20 @@
+.loc-heading {
+    color: #4792e7;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
 .accord-loc {
-    margin: 30px;
+    margin: 15px;
     width: 80%;
     margin-bottom: 20px;
 }
 
-.sort, .group {
+.sort, .group, .revert {
     display: block;
 }
 
-.sort {
+.sort, .revert {
     margin: 30px -70%;
 }
 
@@ -22,11 +28,11 @@
 }
 
 @media screen and (max-width: 600px) {
-    .sort, .group {
+    .sort, .group, .revert {
         margin: 0 20%;
     }
 
-    .group {
+    .group, .revert {
         margin-bottom: 60px;
         margin-top: 15px;
     }

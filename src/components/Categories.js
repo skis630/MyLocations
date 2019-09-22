@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import {Button, ButtonGroup, ListGroup, FormControl, Form } from 'react-bootstrap';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import './categories.css';
 import TopToolbar from './toolbars/topToolbar';
 import { store } from '../index';
 import { deleteCat, toggleEditCat, editCat } from '../actions';
@@ -38,7 +39,8 @@ class Categories extends React.Component {
         return (
             <div>
                 <TopToolbar display="category" />
-                <ListGroup>
+                <h1 className="cat-heading">My Categories</h1>
+                <ListGroup className="list">
                     {this.state.categories.map(cat => {
                         if (cat.editable) {
                             list = <Form inline>
@@ -49,9 +51,9 @@ class Categories extends React.Component {
                         } else { list = cat.name}
 
                         return (
-                                <ListGroup.Item key={cat.id}>
+                                <ListGroup.Item key={cat.id} className="list-item">
                                     {list}
-                                    <ButtonGroup>
+                                    <ButtonGroup className="change">
                                         <Button onClick={() => store.dispatch(deleteCat(cat.id))} >
                                             <FaTrashAlt />
                                         </Button>
